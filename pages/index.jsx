@@ -1,5 +1,6 @@
 import { Flex, Button, Heading } from "@chakra-ui/react";
 import Head from "next/head";
+import Link from "next/link";
 
 const Navbar = () => {
   return (
@@ -16,9 +17,11 @@ const Navbar = () => {
       <Heading color={"white"} size="lg">
         Next-commerce
       </Heading>
-      <Button colorScheme={"messenger"} variant="solid">
-        Sign In
-      </Button>
+      <Link href="/authenticate/login">
+        <Button colorScheme={"messenger"} variant="solid">
+          Sign In
+        </Button>
+      </Link>
     </Flex>
   );
 };
