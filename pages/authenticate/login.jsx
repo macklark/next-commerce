@@ -11,12 +11,21 @@ import {
   Text,
   Flex,
   Heading,
+  InputGroup,
+  InputRightElement,
+  IconButton,
 } from "@chakra-ui/react";
 import Link from "next/link";
+import Head from "next/head";
+
+import { useState } from "react";
 
 import { FcGoogle } from "react-icons/fc";
+import { HiEye, HiEyeOff } from "react-icons/hi";
 
 function Login() {
+  const [hidePassword, openPassword] = useState(false);
+
   return (
     <Box
       bg={useColorModeValue("gray.50", "inherit")}
@@ -24,6 +33,13 @@ function Login() {
       py="12"
       px={{ base: "4", lg: "8" }}
     >
+      <Head>
+        <title>Next-commerce | Login</title>
+        <meta charSet="UTF-8" />
+        <meta name="description" content="Ganesh portfolio" />
+        <meta name="author" content="macklark" />
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
       <Box maxW="md" mx="auto">
         <Box
           bg={useColorModeValue("white", "gray.700")}
@@ -55,12 +71,25 @@ function Login() {
               </FormControl>
               <FormControl id="password">
                 <FormLabel>Password</FormLabel>
-                <Input
-                  name="password"
-                  type="password"
-                  autoComplete="password"
-                  required
-                />
+                <InputGroup>
+                  <InputRightElement>
+                    <IconButton
+                      bg="transparent !important"
+                      variant="ghost"
+                      aria-label={
+                        hidePassword ? "Mask password" : "Reveal password"
+                      }
+                      icon={hidePassword ? <HiEye /> : <HiEyeOff />}
+                      onClick={() => openPassword(!hidePassword)}
+                    />
+                  </InputRightElement>
+                  <Input
+                    name="password"
+                    type={hidePassword ? "text" : "password"}
+                    autoComplete="current-password"
+                    required
+                  />
+                </InputGroup>
               </FormControl>
               <Button
                 type="submit"
@@ -95,7 +124,7 @@ function Login() {
         </Box>
         <Text mt="5" textAlign="center">
           New ? |{" "}
-          <Link href="/">
+          <Link href="/authenticate/signup">
             <a>Sign up</a>
           </Link>
         </Text>
