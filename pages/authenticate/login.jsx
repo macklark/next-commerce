@@ -18,13 +18,30 @@ import {
 import Link from "next/link";
 import Head from "next/head";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 import { FcGoogle } from "react-icons/fc";
 import { HiEye, HiEyeOff } from "react-icons/hi";
 
+import { signIn } from "next-auth/client";
+
 function Login() {
   const [hidePassword, openPassword] = useState(false);
+
+  const emailRef = useRef();
+  const passwordRef = useRef();
+
+  async function submitHandler(event) {
+    event.preventDefault();
+    const result = await signIn("credentials", {
+      redirect: false,
+      email: emailRef.current.value,
+      password: passwordRef.current.value,
+    });
+
+    console.log(result);
+    // console.log(emailRef.current.value, passwordRef.current.value);
+  }
 
   return (
     <Box
@@ -58,7 +75,7 @@ function Login() {
           >
             Next Commerce
           </Heading>
-          <chakra.form>
+          <form onSubmit={submitHandler}>
             <Stack spacing="6">
               <FormControl id="email">
                 <FormLabel>Email</FormLabel>
@@ -67,6 +84,7 @@ function Login() {
                   type="email"
                   autoComplete="email"
                   required
+                  ref={emailRef}
                 />
               </FormControl>
               <FormControl id="password">
@@ -88,6 +106,7 @@ function Login() {
                     type={hidePassword ? "text" : "password"}
                     autoComplete="current-password"
                     required
+                    ref={passwordRef}
                   />
                 </InputGroup>
               </FormControl>
@@ -100,7 +119,7 @@ function Login() {
                 Login
               </Button>
             </Stack>
-          </chakra.form>
+          </form>
           <Flex align="center" color="gray.300" my="5">
             <Box flex="1">
               <Divider borderColor="currentcolor" />
