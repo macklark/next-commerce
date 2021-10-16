@@ -1,8 +1,25 @@
-import { Flex, Button, Heading } from "@chakra-ui/react";
+import {
+  Flex,
+  Button,
+  Heading,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  Avatar,
+} from "@chakra-ui/react";
 import Head from "next/head";
 import Link from "next/link";
 
+import { useSession, signOut } from "next-auth/client";
+
 const Navbar = () => {
+  const [session, loading] = useSession();
+
+  const logoutHandler = () => {
+    signOut();
+  };
+
   return (
     <Flex
       as="nav"
@@ -17,11 +34,23 @@ const Navbar = () => {
       <Heading color={"white"} size="lg">
         Next-commerce
       </Heading>
-      <Link href="/authenticate/login">
-        <Button colorScheme={"messenger"} variant="solid">
-          Sign In
-        </Button>
-      </Link>
+      <Flex align="center">
+        {!session && !loading && (
+          <Link href="/authenticate/login">
+            <Button colorScheme={"messenger"} variant="solid" mr="5">
+              Sign In
+            </Button>
+          </Link>
+        )}
+        {session && (
+          <Menu isLazy id="menu-btn">
+            <MenuButton as={Avatar} cursor="pointer" />
+            <MenuList>
+              <MenuItem onClick={logoutHandler}>Logout</MenuItem>
+            </MenuList>
+          </Menu>
+        )}
+      </Flex>
     </Flex>
   );
 };
