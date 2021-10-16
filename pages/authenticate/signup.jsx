@@ -2,7 +2,6 @@ import {
   Box,
   useColorModeValue,
   Heading,
-  chakra,
   Stack,
   FormControl,
   FormLabel,
@@ -14,17 +13,60 @@ import {
   InputGroup,
   InputRightElement,
   IconButton,
+  Alert,
+  AlertIcon,
+  AlertTitle,
+  AlertDescription,
 } from "@chakra-ui/react";
 import Link from "next/link";
 import Head from "next/head";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 import { FcGoogle } from "react-icons/fc";
 import { HiEye, HiEyeOff } from "react-icons/hi";
 
+async function createUser(username, email, password) {
+  const response = await fetch("/api/auth/signup", {
+    method: "POST",
+    body: JSON.stringify({ username, email, password }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message);
+  }
+
+  return data;
+}
+
 function Signup() {
   const [hidePassword, openPassword] = useState(false);
+
+  const usernameRef = useRef();
+  const emailRef = useRef();
+  const passwordRef = useRef();
+
+  async function submitHandler(event) {
+    event.preventDefault();
+
+    try {
+      const result = await createUser(
+        usernameRef.current.value,
+        emailRef.current.value,
+        passwordRef.current.value
+      );
+
+      console.log(result);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   return (
     <Box
       bg={useColorModeValue("gray.50", "inherit")}
@@ -57,7 +99,7 @@ function Signup() {
           >
             Next Commerce
           </Heading>
-          <chakra.form>
+          <form onSubmit={submitHandler}>
             <Stack spacing="6">
               <FormControl id="username">
                 <FormLabel>Username</FormLabel>
@@ -66,6 +108,7 @@ function Signup() {
                   type="text"
                   autoComplete="username"
                   required
+                  ref={usernameRef}
                 />
               </FormControl>
               <FormControl id="email">
@@ -75,6 +118,7 @@ function Signup() {
                   type="email"
                   autoComplete="email"
                   required
+                  ref={emailRef}
                 />
               </FormControl>
               <FormControl id="password">
@@ -96,6 +140,7 @@ function Signup() {
                     type={hidePassword ? "text" : "password"}
                     autoComplete="password"
                     required
+                    ref={passwordRef}
                   />
                 </InputGroup>
               </FormControl>
@@ -130,7 +175,7 @@ function Signup() {
                 Sign up
               </Button>
             </Stack>
-          </chakra.form>
+          </form>
           <Flex align="center" color="gray.300" my="5">
             <Box flex="1">
               <Divider borderColor="currentcolor" />
