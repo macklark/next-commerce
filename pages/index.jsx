@@ -7,6 +7,7 @@ import {
   MenuList,
   MenuItem,
   Avatar,
+  Spinner,
 } from "@chakra-ui/react";
 import Head from "next/head";
 import Link from "next/link";
@@ -15,6 +16,7 @@ import { useSession, signOut } from "next-auth/client";
 
 const Navbar = () => {
   const [session, loading] = useSession();
+  console.log(session);
 
   const logoutHandler = () => {
     signOut();
@@ -42,6 +44,7 @@ const Navbar = () => {
             </Button>
           </Link>
         )}
+        {loading && <Spinner size="sm" />}
         {session && (
           <Menu isLazy id="menu-btn">
             <MenuButton as={Avatar} cursor="pointer" />
