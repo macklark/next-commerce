@@ -2,7 +2,6 @@ import {
   Box,
   useColorModeValue,
   Button,
-  chakra,
   FormControl,
   FormLabel,
   Input,
@@ -39,8 +38,7 @@ function Login() {
       password: passwordRef.current.value,
     });
 
-    console.log(result);
-    // console.log(emailRef.current.value, passwordRef.current.value);
+    window.location.href = "/";
   }
 
   return (
