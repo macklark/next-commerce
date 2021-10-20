@@ -12,11 +12,24 @@ import {
 import Head from "next/head";
 import Link from "next/link";
 
+import Dashboard from "../components/dashboard";
+
 import { useSession, signOut } from "next-auth/client";
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
+
+export async function getServerSideProps() {
+  const products = await prisma.product.findMany();
+  return {
+    props: {
+      products,
+    },
+  };
+}
 
 const Navbar = () => {
   const [session, loading] = useSession();
-  console.log(session);
 
   const logoutHandler = () => {
     signOut();
@@ -58,7 +71,7 @@ const Navbar = () => {
   );
 };
 
-export default function Home() {
+export default function Home({ products }) {
   return (
     <>
       <Head>
@@ -69,6 +82,7 @@ export default function Home() {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <Navbar />
+      <Dashboard products={products} />
     </>
   );
 }
