@@ -12,4 +12,5 @@ model Product {
   id String @id @default(dbgenerated()) @map("_id") @db.ObjectId
   title String
   description String
+  image String
 }
