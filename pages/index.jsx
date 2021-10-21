@@ -1,20 +1,9 @@
-import {
-  Flex,
-  Button,
-  Heading,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  Avatar,
-  Spinner,
-} from "@chakra-ui/react";
+import { Flex, Button, Heading } from "@chakra-ui/react";
 import Head from "next/head";
 import Link from "next/link";
 
 import Dashboard from "../components/dashboard";
 
-import { useSession, signOut } from "next-auth/client";
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
@@ -29,12 +18,6 @@ export async function getServerSideProps() {
 }
 
 const Navbar = () => {
-  const [session, loading] = useSession();
-
-  const logoutHandler = () => {
-    signOut();
-  };
-
   return (
     <Flex
       as="nav"
@@ -50,22 +33,11 @@ const Navbar = () => {
         Next-commerce
       </Heading>
       <Flex align="center">
-        {!session && !loading && (
-          <Link href="/authenticate/login">
-            <Button colorScheme={"messenger"} variant="solid" mr="5">
-              Sign In
-            </Button>
-          </Link>
-        )}
-        {loading && <Spinner size="sm" />}
-        {session && (
-          <Menu isLazy id="menu-btn">
-            <MenuButton as={Avatar} cursor="pointer" />
-            <MenuList>
-              <MenuItem onClick={logoutHandler}>Logout</MenuItem>
-            </MenuList>
-          </Menu>
-        )}
+        <Link href="/authenticate/login">
+          <Button colorScheme={"messenger"} variant="solid" mr="5">
+            Sign In
+          </Button>
+        </Link>
       </Flex>
     </Flex>
   );
