@@ -2,10 +2,8 @@ import { useState } from "react";
 import {
   Box,
   SimpleGrid,
-  useBreakpointValue,
   Stack,
   Text,
-  useColorModeValue,
   AspectRatio,
   Image,
   Skeleton,
@@ -15,16 +13,6 @@ import {
 function Dashboard({ products }) {
   const [productsList, updateProductsList] = useState(products);
   return (
-    // <>
-    //   {productsList.map((product) => {
-    //     return (
-    //       <div key={product.id}>
-    //         <h2>{product.title}</h2>
-    //         <p>{product.description}</p>
-    //       </div>
-    //     );
-    //   })}
-    // </>
     <Box
       maxW="7xl"
       mx="auto"
@@ -39,7 +27,7 @@ function Dashboard({ products }) {
         {productsList.map((product) => {
           return (
             <div key={product.id}>
-              <Stack spacing={useBreakpointValue({ base: "4", md: "5" })}>
+              <Stack spacing={{ base: "4", md: "5" }}>
                 <Box position="relative">
                   <AspectRatio ratio={6 / 9}>
                     <Image
@@ -47,20 +35,14 @@ function Dashboard({ products }) {
                       alt={product.title}
                       draggable="false"
                       fallback={<Skeleton />}
-                      borderRadius={useBreakpointValue({
-                        base: "md",
-                        md: "xl",
-                      })}
+                      borderRadius={{ base: "md", md: "xl" }}
                       objectFit="cover"
                     />
                   </AspectRatio>
                 </Box>
                 <Stack>
                   <Stack spacing="1" bgColor="gray.100" borderRadius="xl" p="5">
-                    <Text
-                      fontWeight="medium"
-                      color={useColorModeValue("gray.700", "gray.400")}
-                    >
+                    <Text fontWeight="medium" color={"gray.700"}>
                       {product.title}
                     </Text>
                     <Stack align="center" pt="5">
