@@ -22,7 +22,7 @@ import { useState, useRef } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { HiEye, HiEyeOff } from "react-icons/hi";
 
-import { signIn } from "next-auth/client";
+// import { signIn } from "next-auth/client";
 
 function Login() {
   const [hidePassword, openPassword] = useState(false);
@@ -32,13 +32,14 @@ function Login() {
 
   async function submitHandler(event) {
     event.preventDefault();
-    const result = await signIn("credentials", {
-      redirect: false,
-      email: emailRef.current.value,
-      password: passwordRef.current.value,
-    });
+    // const result = await signIn("credentials", {
+    //   redirect: true,
+    //   email: emailRef.current.value,
+    //   password: passwordRef.current.value,
+    // });
+    console.log(emailRef.current.value, passwordRef.current.value);
 
-    window.location.href = "/";
+    // window.location.href = "/";
   }
 
   return (

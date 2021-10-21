@@ -13,10 +13,10 @@ import {
   InputGroup,
   InputRightElement,
   IconButton,
-  Alert,
-  AlertIcon,
-  AlertTitle,
-  AlertDescription,
+  // Alert,
+  // AlertIcon,
+  // AlertTitle,
+  // AlertDescription,
 } from "@chakra-ui/react";
 import Link from "next/link";
 import Head from "next/head";
@@ -26,23 +26,23 @@ import { useState, useRef } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { HiEye, HiEyeOff } from "react-icons/hi";
 
-async function createUser(username, email, password) {
-  const response = await fetch("/api/auth/signup", {
-    method: "POST",
-    body: JSON.stringify({ username, email, password }),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+// async function createUser(username, email, password) {
+//   const response = await fetch("/api/auth/signup", {
+//     method: "POST",
+//     body: JSON.stringify({ username, email, password }),
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//   });
 
-  const data = await response.json();
+//   const data = await response.json();
 
-  if (!response.ok) {
-    throw new Error(data.message);
-  }
+//   if (!response.ok) {
+//     throw new Error(data.message);
+//   }
 
-  return data;
-}
+//   return data;
+// }
 
 function Signup() {
   const [hidePassword, openPassword] = useState(false);
@@ -53,18 +53,23 @@ function Signup() {
 
   async function submitHandler(event) {
     event.preventDefault();
+    console.log(
+      usernameRef.current.value,
+      emailRef.current.value,
+      passwordRef.current.value
+    );
 
-    try {
-      const result = await createUser(
-        usernameRef.current.value,
-        emailRef.current.value,
-        passwordRef.current.value
-      );
+    // try {
+    //   const result = await createUser(
+    //     usernameRef.current.value,
+    //     emailRef.current.value,
+    //     passwordRef.current.value
+    //   );
 
-      console.log(result);
-    } catch (err) {
-      console.log(err);
-    }
+    //   console.log(result);
+    // } catch (err) {
+    //   console.log(err);
+    // }
   }
 
   return (
