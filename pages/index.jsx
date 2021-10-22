@@ -2,8 +2,6 @@ import { Flex, Button, Heading } from "@chakra-ui/react";
 import Head from "next/head";
 import Link from "next/link";
 
-import Dashboard from "../components/dashboard";
-
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
@@ -33,7 +31,7 @@ const Navbar = () => {
         Next-commerce
       </Heading>
       <Flex align="center">
-        <Link href="/authenticate/login">
+        <Link href="/">
           <Button colorScheme={"messenger"} variant="solid" mr="5">
             Sign In
           </Button>
@@ -54,7 +52,6 @@ export default function Home({ products }) {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <Navbar />
-      <Dashboard products={products} />
     </>
   );
 }
