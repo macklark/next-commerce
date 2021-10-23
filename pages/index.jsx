@@ -2,14 +2,12 @@ import { Flex, Button, Heading } from "@chakra-ui/react";
 import Head from "next/head";
 import Link from "next/link";
 
+import { getAllProducts } from "../lib/helper";
+
 import Dashboard from "../components/dashboard";
 
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
-
 export async function getServerSideProps() {
-  const products = await prisma.product.findMany();
+  const [...products] = await getAllProducts();
   return {
     props: {
       products,
@@ -49,7 +47,7 @@ export default function Home({ products }) {
       <Head>
         <title>Next-commerce | Home</title>
         <meta charSet="UTF-8" />
-        <meta name="description" content="Ganesh portfolio" />
+        <meta name="description" content="Next commerce" />
         <meta name="author" content="macklark" />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
