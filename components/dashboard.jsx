@@ -16,6 +16,7 @@ export default function Dashboard({ products }) {
       px={{ base: "4", md: "8", lg: "14" }}
       py={{ base: "6", md: "8", lg: "12" }}
     >
+      <p>Shake it up</p>
       <SimpleGrid
         columns={{ base: "1", md: "2", lg: "3", xl: "4" }}
         columnGap={{ base: "4", md: "6" }}
