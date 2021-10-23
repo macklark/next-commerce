@@ -8,6 +8,8 @@ import {
   Image,
 } from "@chakra-ui/react";
 
+import Link from "next/link";
+
 export default function Dashboard({ products }) {
   return (
     <Box
@@ -44,9 +46,11 @@ export default function Dashboard({ products }) {
                   </Text>
                 </Stack>
                 <Stack align="center">
-                  <Button colorScheme="blue" isFullWidth>
-                    Order now
-                  </Button>
+                  <Link href={`/products/${product.id}`}>
+                    <Button colorScheme="blue" isFullWidth>
+                      Order now
+                    </Button>
+                  </Link>
                 </Stack>
               </Stack>
             </Stack>
