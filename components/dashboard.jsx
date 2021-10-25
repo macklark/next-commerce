@@ -1,12 +1,4 @@
-import {
-  Box,
-  SimpleGrid,
-  Stack,
-  Text,
-  Button,
-  AspectRatio,
-  Image,
-} from "@chakra-ui/react";
+import { Box, SimpleGrid, Stack, Text, Button, Image } from "@chakra-ui/react";
 
 import Link from "next/link";
 
@@ -27,14 +19,14 @@ export default function Dashboard({ products }) {
           return (
             <Stack spacing={{ base: "4", md: "5" }} key={product.id}>
               <Box position="relative">
-                <AspectRatio ratio={4 / 3}>
-                  <Image
-                    src={product.image}
-                    alt={product.title}
-                    draggable="false"
-                    borderRadius={{ base: "md", md: "xl" }}
-                  />
-                </AspectRatio>
+                <Image
+                  src={product.image}
+                  alt={product.title}
+                  draggable="false"
+                  boxSize="315px"
+                  objectFit="cover"
+                  borderRadius={{ base: "md", md: "xl" }}
+                />
               </Box>
               <Stack>
                 <Stack spacing="1">
