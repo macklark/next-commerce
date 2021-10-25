@@ -31,7 +31,7 @@ const Navbar = () => {
         Next-commerce
       </Heading>
       <Flex align="center">
-        <Link href="/">
+        <Link href="/sign-in">
           <Button colorScheme={"messenger"} variant="solid" mr="5">
             Sign In
           </Button>
