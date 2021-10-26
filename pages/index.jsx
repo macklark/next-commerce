@@ -1,10 +1,13 @@
 import { Flex, Button, Heading } from "@chakra-ui/react";
+
 import Head from "next/head";
 import Link from "next/link";
 
 import { getAllProducts } from "../lib/helper";
 
 import Dashboard from "../components/dashboard";
+
+import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 
 export async function getServerSideProps() {
   const [...products] = await getAllProducts();
@@ -31,11 +34,16 @@ const Navbar = () => {
         Next-commerce
       </Heading>
       <Flex align="center">
-        <Link href="/sign-in">
-          <Button colorScheme={"messenger"} variant="solid" mr="5">
-            Sign In
-          </Button>
-        </Link>
+        <SignedOut>
+          <Link href="/sign-in">
+            <Button colorScheme={"messenger"} variant="solid" mr="5">
+              Sign In
+            </Button>
+          </Link>
+        </SignedOut>
+        <SignedIn>
+          <UserButton userProfileUrl="/user" afterSignOutAll="/" />
+        </SignedIn>
       </Flex>
     </Flex>
   );
