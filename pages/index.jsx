@@ -1,4 +1,17 @@
-import { Flex, Button, Heading } from "@chakra-ui/react";
+import {
+  Flex,
+  Button,
+  Heading,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  Input,
+  Stack,
+  ModalBody,
+} from "@chakra-ui/react";
+import { useDisclosure } from "@chakra-ui/react";
+
+import { SearchIcon } from "@chakra-ui/icons";
 
 import Head from "next/head";
 import Link from "next/link";
@@ -8,6 +21,8 @@ import { getAllProducts } from "../lib/helper";
 import Dashboard from "../components/dashboard";
 
 import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+
+import { useRef } from "react";
 
 export async function getServerSideProps() {
   const [...products] = await getAllProducts();
@@ -19,6 +34,9 @@ export async function getServerSideProps() {
 }
 
 const Navbar = () => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const inputRef = useRef();
+
   return (
     <Flex
       as="nav"
@@ -34,6 +52,15 @@ const Navbar = () => {
         Next-commerce
       </Heading>
       <Flex align="center">
+        <Stack mr="5">
+          <Button
+            leftIcon={<SearchIcon />}
+            colorScheme="facebook"
+            onClick={onOpen}
+          >
+            Search
+          </Button>
+        </Stack>
         <SignedOut>
           <Link href="/sign-in">
             <Button colorScheme={"messenger"} variant="solid" mr="5">
@@ -45,6 +72,12 @@ const Navbar = () => {
           <UserButton userProfileUrl="/user" afterSignOutAll="/" />
         </SignedIn>
       </Flex>
+      <Modal finalFocusRef={inputRef} isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <Input placeholder="🔍 Search..." size="lg" />
+        </ModalContent>
+      </Modal>
     </Flex>
   );
 };
