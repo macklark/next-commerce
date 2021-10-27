@@ -5,7 +5,7 @@ import Head from "next/head";
 
 const SignInPage = () => {
   return (
-    <Box my="20">
+    <Box my="10">
       <Head>
         <title>Next-commerce | Sign In</title>
         <meta charSet="UTF-8" />
