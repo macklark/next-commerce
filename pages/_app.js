@@ -7,7 +7,12 @@ import {
 } from "@clerk/nextjs";
 import { useRouter } from "next/router";
 
-const publicPages = ["/", "/sign-in/[[...index]]", "/sign-up/[[...index]]"];
+const publicPages = [
+  "/",
+  "/sign-in/[[...index]]",
+  "/sign-up/[[...index]]",
+  "/products/[id]",
+];
 
 function MyApp({ Component, pageProps }) {
   const { pathname } = useRouter();
