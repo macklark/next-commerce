@@ -8,6 +8,10 @@ import {
   Input,
   Stack,
   ModalBody,
+  Alert,
+  AlertIcon,
+  AlertTitle,
+  Spinner,
 } from "@chakra-ui/react";
 import { useDisclosure } from "@chakra-ui/react";
 
@@ -22,7 +26,9 @@ import Dashboard from "../components/dashboard";
 
 import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
+
+import Fuse from "fuse.js";
 
 export async function getServerSideProps() {
   const [...products] = await getAllProducts();
@@ -33,9 +39,17 @@ export async function getServerSideProps() {
   };
 }
 
-const Navbar = () => {
+const Navbar = ({ products }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const inputRef = useRef();
+  const [initQuery, setQuery] = useState("");
+
+  const fuse = new Fuse(products, {
+    keys: ["title"],
+  });
+
+  const results = fuse.search(initQuery);
+  const finalResults = results.map((result) => result.item);
 
   return (
     <Flex
@@ -75,7 +89,31 @@ const Navbar = () => {
       <Modal finalFocusRef={inputRef} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <Input placeholder="🔍 Search..." size="lg" />
+          <Input
+            placeholder="🔍 Search..."
+            size="lg"
+            borderBottomRadius="0"
+            value={initQuery}
+            onChange={(e) => setQuery(e.target.value)}
+          />
+          <ModalBody m="0" borderRadius="md" borderTopRadius="0">
+            <Stack spacing={3}>
+              {finalResults.map((product) => {
+                return (
+                  <Link href={`products/${product.id}`} key={product.id}>
+                    {product.title}
+                  </Link>
+                );
+              })}
+            </Stack>
+            {(initQuery != "") & (finalResults.length === 0) && (
+              <Alert status="error" borderRadius="md">
+                <AlertIcon />
+                <AlertTitle mr={2}>No product found!</AlertTitle>
+              </Alert>
+            )}
+            {!products && <Spinner />}
+          </ModalBody>
         </ModalContent>
       </Modal>
     </Flex>
@@ -92,7 +130,7 @@ export default function Home({ products }) {
         <meta name="author" content="macklark" />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <Navbar />
+      <Navbar products={products} />
       <Dashboard products={products} />
     </>
   );
