@@ -14,3 +14,4 @@ model Product {
   image         String
   price         Int
 }
+
