@@ -11,7 +11,6 @@ import {
   Alert,
   AlertIcon,
   AlertTitle,
-  Spinner,
 } from "@chakra-ui/react";
 import { useDisclosure } from "@chakra-ui/react";
 
@@ -98,21 +97,19 @@ const Navbar = ({ products }) => {
           />
           <ModalBody m="0" borderRadius="md" borderTopRadius="0">
             <Stack spacing={3}>
-              {finalResults.map((product) => {
-                return (
-                  <Link href={`products/${product.id}`} key={product.id}>
-                    {product.title}
-                  </Link>
-                );
-              })}
+              {finalResults.length > 0 ? (
+                finalResults.map((product) => {
+                  return (
+                    <Link href={`products/${product.id}`}>{product.title}</Link>
+                  );
+                })
+              ) : (
+                <Alert status="info">
+                  <AlertIcon />
+                  <AlertTitle mr={2}>Search results here !</AlertTitle>
+                </Alert>
+              )}
             </Stack>
-            {(initQuery != "") & (finalResults.length === 0) && (
-              <Alert status="error" borderRadius="md">
-                <AlertIcon />
-                <AlertTitle mr={2}>No product found!</AlertTitle>
-              </Alert>
-            )}
-            {!products && <Spinner />}
           </ModalBody>
         </ModalContent>
       </Modal>
