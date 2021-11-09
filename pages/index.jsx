@@ -100,7 +100,11 @@ const Navbar = ({ products }) => {
               {finalResults.length > 0 ? (
                 finalResults.map((product) => {
                   return (
-                    <Link href={`products/${product.id}`}>{product.title}</Link>
+                    <div key={product.id}>
+                      <Link href={`products/${product.id}`}>
+                        {product.title}
+                      </Link>
+                    </div>
                   );
                 })
               ) : (
