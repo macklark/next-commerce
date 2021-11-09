@@ -17,35 +17,37 @@ export default function Dashboard({ products }) {
       >
         {products.map((product) => {
           return (
-            <Stack spacing={{ base: "4", md: "5" }} key={product.id}>
-              <Box position="relative">
-                <Image
-                  src={product.image}
-                  alt={product.title}
-                  draggable="false"
-                  boxSize="315px"
-                  objectFit="cover"
-                  borderRadius={{ base: "md", md: "xl" }}
-                />
-              </Box>
-              <Stack>
-                <Stack spacing="1">
-                  <Text fontWeight="medium" color="gray.700">
-                    {product.title}
-                  </Text>
-                  <Text as="span" fontWeight="medium" color="gray.400">
-                    ${product.price}
-                  </Text>
-                </Stack>
-                <Stack align="center">
-                  <Link href={`/products/${product.id}`}>
-                    <Button colorScheme="blue" isFullWidth>
-                      Order now
-                    </Button>
-                  </Link>
+            <div key={product.id}>
+              <Stack spacing={{ base: "4", md: "5" }} key={product.id}>
+                <Box position="relative">
+                  <Image
+                    src={product.image}
+                    alt={product.title}
+                    draggable="false"
+                    boxSize="315px"
+                    objectFit="cover"
+                    borderRadius={{ base: "md", md: "xl" }}
+                  />
+                </Box>
+                <Stack>
+                  <Stack spacing="1">
+                    <Text fontWeight="medium" color="gray.700">
+                      {product.title}
+                    </Text>
+                    <Text as="span" fontWeight="medium" color="gray.400">
+                      ${product.price}
+                    </Text>
+                  </Stack>
+                  <Stack align="center">
+                    <Link href={`/products/${product.id}`}>
+                      <Button colorScheme="blue" isFullWidth>
+                        Order now
+                      </Button>
+                    </Link>
+                  </Stack>
                 </Stack>
               </Stack>
-            </Stack>
+            </div>
           );
         })}
       </SimpleGrid>
