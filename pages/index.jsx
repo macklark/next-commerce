@@ -4,6 +4,7 @@ import Image from "next/image";
 
 // Component imports
 import Navbar from "../components/Navbar";
+import Sidebar from "../components/Sidebar";
 
 // Chakra imports
 import { Grid, GridItem, Box, Text, Button, Flex } from "@chakra-ui/react";
@@ -19,11 +20,9 @@ const Layout = () => (
       gap={4}
       h="200px"
     >
-      <GridItem
-        colSpan={2}
-        bg="tomato"
-        display={{ base: "none", lg: "grid", md: "none" }}
-      />
+      <GridItem colSpan={2} display={{ base: "none", md: "none", lg: "grid" }}>
+        <Sidebar />
+      </GridItem>
       <GridItem colSpan={5}>
         <Grid
           templateColumns={{ base: "repeat(1, 1fr)", md: "repeat(3, 1fr)" }}
