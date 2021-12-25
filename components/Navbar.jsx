@@ -19,12 +19,12 @@ const Navbar = () => (
       mx="auto"
       padding="4"
       align="center"
+      display={{ base: "none", md: "flex" }}
     >
       <Heading as="h2" size="xl">
         Next Commerce
       </Heading>
-      <Mobilenavbar />
-      <Flex display={{ base: "none", md: "flex" }} align="center" w="40%">
+      <Flex align="center" w="40%">
         <Input placeholder="🔍 Search..." marginRight="7" />
         <SignedOut>
           <Link href="/signIn">
@@ -44,6 +44,7 @@ const Navbar = () => (
         </SignedIn>
       </Flex>
     </Flex>
+    <Mobilenavbar />
   </Box>
 );
 
