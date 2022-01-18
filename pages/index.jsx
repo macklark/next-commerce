@@ -7,9 +7,25 @@ import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 
 // Chakra imports
-import { Grid, GridItem, Box, Text, Button, Flex } from "@chakra-ui/react";
+import {
+  Grid,
+  GridItem,
+  Box,
+  Text,
+  Button,
+  Flex,
+  Alert,
+  AlertIcon,
+  AlertTitle,
+  Spinner,
+} from "@chakra-ui/react";
 
-const Layout = () => (
+// SWR imports
+import useSWR from "swr";
+
+const fetcher = (url) => fetch(url).then((res) => res.json());
+
+const Layout = ({ data }) => (
   <Box w={["100%", 11 / 12]} mx="auto" padding="4">
     <Grid
       templateColumns={{
@@ -29,47 +45,79 @@ const Layout = () => (
           gap={4}
           h="100px"
         >
-          <GridItem colSpan={1} rounded="md" boxShadow="base">
-            <Image
-              src="/blueshirt.jpg"
-              alt="blue shirt"
-              width="100%"
-              height="70%"
-              layout="responsive"
-              priority="low"
-            />
-            <Text fontSize="2xl" px="2" pt="2">
-              Blue T-shirt
-            </Text>
-            <Text fontSize="lg" px="2">
-              $6.99
-            </Text>
-            <Flex justifyContent="center">
-              <Button
-                width="100%"
-                margin="2"
-                color="white"
-                bgGradient="linear(to-r,#7928CA, #FF0080 )"
+          {data.products.map((product) => {
+            return (
+              <GridItem
+                colSpan={1}
+                rounded="md"
+                boxShadow="base"
+                key={product.id}
               >
-                Add to cart
-              </Button>
-            </Flex>
-          </GridItem>
+                <Image
+                  src={product.image}
+                  alt="blue shirt"
+                  width="100%"
+                  height="70%"
+                  layout="responsive"
+                  priority="low"
+                />
+                <Text fontSize="2xl" px="2" pt="2">
+                  {product.name}
+                </Text>
+                <Text fontSize="lg" px="2">
+                  ${product.price}
+                </Text>
+                <Flex justifyContent="center">
+                  <Button
+                    width="100%"
+                    margin="2"
+                    color="white"
+                    bgGradient="linear(to-r,#7928CA, #FF0080 )"
+                  >
+                    Add to cart
+                  </Button>
+                </Flex>
+              </GridItem>
+            );
+          })}
         </Grid>
       </GridItem>
     </Grid>
   </Box>
 );
 
-const Home = () => (
-  <>
-    <Head>
-      <title>Next Commerce</title>
-      <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-    </Head>
-    <Navbar />
-    <Layout />
-  </>
-);
+const Home = () => {
+  const { data, error } = useSWR("/api/products/getAll", fetcher);
+
+  if (error)
+    return (
+      <Alert status="error">
+        <AlertIcon />
+        <AlertTitle mr={2}>Error occured</AlertTitle>
+      </Alert>
+    );
+
+  if (!data)
+    return (
+      <Spinner
+        thickness="4px"
+        speed="0.65s"
+        emptyColor="gray.200"
+        color="blue.500"
+        size="xl"
+      />
+    );
+
+  return (
+    <>
+      <Head>
+        <title>Next Commerce</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
+      <Navbar />
+      <Layout data={data} />
+    </>
+  );
+};
 
 export default Home;
