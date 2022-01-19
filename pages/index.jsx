@@ -1,6 +1,7 @@
 // Nextjs imports
 import Head from "next/head";
 import Image from "next/image";
+import Link from "next/link";
 
 // Component imports
 import Navbar from "../components/Navbar";
@@ -68,14 +69,16 @@ const Layout = ({ data }) => (
                   ${product.price}
                 </Text>
                 <Flex justifyContent="center">
-                  <Button
-                    width="100%"
-                    margin="2"
-                    color="white"
-                    bgGradient="linear(to-r,#7928CA, #FF0080 )"
-                  >
-                    Add to cart
-                  </Button>
+                  <Link href={"/products/" + product.id}>
+                    <Button
+                      width="100%"
+                      margin="2"
+                      color="white"
+                      bgGradient="linear(to-r,#7928CA, #FF0080 )"
+                    >
+                      Add to cart
+                    </Button>
+                  </Link>
                 </Flex>
               </GridItem>
             );
@@ -97,17 +100,6 @@ const Home = () => {
       </Alert>
     );
 
-  if (!data)
-    return (
-      <Spinner
-        thickness="4px"
-        speed="0.65s"
-        emptyColor="gray.200"
-        color="blue.500"
-        size="xl"
-      />
-    );
-
   return (
     <>
       <Head>
@@ -115,7 +107,19 @@ const Home = () => {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <Navbar />
-      <Layout data={data} />
+      {data ? (
+        <Layout data={data} />
+      ) : (
+        <Flex justifyContent="center">
+          <Spinner
+            thickness="4px"
+            speed="0.65s"
+            emptyColor="gray.200"
+            color="blue.500"
+            size="xl"
+          />
+        </Flex>
+      )}
     </>
   );
 };
