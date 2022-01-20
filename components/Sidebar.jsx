@@ -15,7 +15,7 @@ const Sidebar = () => (
         _hover={{ background: "gray.200", color: "black" }}
         borderRadius="5px"
       >
-        T-shirt's
+        T-shirts
       </Text>
     </Box>
   </Box>
