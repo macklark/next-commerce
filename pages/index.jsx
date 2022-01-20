@@ -69,7 +69,7 @@ const Layout = ({ data }) => (
                   ${product.price}
                 </Text>
                 <Flex justifyContent="center">
-                  <Link href={"/products/" + product.id}>
+                  <Link href={"/products/" + product.id} passHref>
                     <Button
                       width="100%"
                       margin="2"
