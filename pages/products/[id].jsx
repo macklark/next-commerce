@@ -1,5 +1,6 @@
 // Next imports
 import Image from "next/image";
+// import Head from "next/head";
 
 // Supabase imports
 import supabase from "../../utils/supabaseClient";
@@ -20,6 +21,9 @@ import {
   NumberIncrementStepper,
   NumberDecrementStepper,
   Button,
+  HStack,
+  useRadio,
+  useRadioGroup,
 } from "@chakra-ui/react";
 
 export const getStaticPaths = async () => {
@@ -58,9 +62,62 @@ export const getStaticProps = async ({ params }) => {
   };
 };
 
+const Group = (props) => {
+  const { getInputProps, getCheckboxProps } = useRadio(props);
+
+  const input = getInputProps();
+  const checkbox = getCheckboxProps();
+
+  return (
+    <Box as="label">
+      <input {...input} />
+      <Box
+        {...checkbox}
+        cursor="pointer"
+        borderWidth="1px"
+        borderRadius="md"
+        _checked={{
+          bg: "teal.600",
+          color: "white",
+        }}
+        _focus={{
+          boxShadow: "outline",
+        }}
+        px={5}
+        py={3}
+      >
+        {props.children}
+      </Box>
+    </Box>
+  );
+};
+
+const Radiobuttons = () => {
+  const options = ["S", "M", "L", "XL", "XXL"];
+
+  const { getRootProps, getRadioProps } = useRadioGroup({
+    name: "size",
+  });
+
+  const group = getRootProps();
+
+  return (
+    <HStack {...group}>
+      {options.map((value) => {
+        const radio = getRadioProps({ value });
+        return (
+          <Group key={value} {...radio}>
+            {value}
+          </Group>
+        );
+      })}
+    </HStack>
+  );
+};
+
 const Details = ({ product }) => {
   return (
-    <Box maxW="7xl" mx="auto" my="50px">
+    <Box maxW="7xl" mx="auto" my={{ md: "50px" }}>
       <Grid templateColumns={{ md: "repeat(10, 1fr)" }} gap={10}>
         <GridItem colSpan={5}>
           <Image
@@ -69,9 +126,10 @@ const Details = ({ product }) => {
             width="100%"
             height="70%"
             layout="responsive"
+            priority
           />
         </GridItem>
-        <GridItem colSpan={5}>
+        <GridItem colSpan={5} margin={{ base: "2em", md: "0em" }}>
           <Flex justifyContent="space-between" align="center">
             <Text fontSize="4xl" fontWeight="medium">
               {product[0].name}
@@ -85,13 +143,14 @@ const Details = ({ product }) => {
             <Text textTransform="uppercase" fontSize="xl" color="gray.500">
               size
             </Text>
-            <Flex mt="15px">
+            {/* <Flex mt="15px">
               {["S", "M", "L", "XL", "XXL"].map((size, index) => (
                 <Text key={index} mx="1em" cursor="pointer" padding="5px">
                   {size}
                 </Text>
               ))}
-            </Flex>
+            </Flex> */}
+            <Radiobuttons />
           </Box>
           <Box marginTop="3em">
             <Text textTransform="uppercase" fontSize="xl" color="gray.500">
