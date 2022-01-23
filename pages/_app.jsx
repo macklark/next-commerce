@@ -17,6 +17,7 @@ const publicPages = [
   "/sign-in/[[...index]]",
   "/sign-up/[[...index]]",
   "/products/[id]",
+  "/result",
 ];
 
 function MyApp({ Component, pageProps }) {
