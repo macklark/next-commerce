@@ -22,9 +22,23 @@ import {
 } from "@chakra-ui/react";
 
 // SWR imports
-import useSWR from "swr";
+import useSWR, { SWRConfig } from "swr";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
+// For development
+// const API = "http://localhost:3000/api/products/getAll";
+const API = `${process.env.NEXT_PUBLIC_SERVER_SIDE_URL}/api/products/getAll`;
+
+export async function getServerSideProps() {
+  const productsInfo = await fetcher(API);
+  return {
+    props: {
+      fallback: {
+        [API]: productsInfo,
+      },
+    },
+  };
+}
 
 const Layout = ({ data }) => (
   <Box w={["100%", 11 / 12]} mx="auto" padding="4">
@@ -90,7 +104,7 @@ const Layout = ({ data }) => (
 );
 
 const Home = () => {
-  const { data, error } = useSWR("/api/products/getAll", fetcher);
+  const { data, error } = useSWR(API);
 
   if (error)
     return (
@@ -124,4 +138,10 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default function SWRwrapper({ fallback }) {
+  return (
+    <SWRConfig value={{ fallback }}>
+      <Home />
+    </SWRConfig>
+  );
+}
