@@ -15,6 +15,9 @@ import {
   IconButton,
 } from "@chakra-ui/react";
 
+// React icons
+import { FaShoppingCart } from "react-icons/fa";
+
 // Icons import
 import { SearchIcon } from "@chakra-ui/icons";
 
@@ -48,7 +51,7 @@ const Navbar = () => {
         <Heading as="h2" size="xl">
           Next Commerce
         </Heading>
-        <Flex align="center" w="40%">
+        <Flex align="center" w="45%">
           <Input
             placeholder="Search..."
             value={searchInput}
@@ -57,8 +60,13 @@ const Navbar = () => {
           <IconButton
             aria-label="search"
             icon={<SearchIcon />}
-            mx="20px"
             onClick={searchHandler}
+            mx="10px"
+          />
+          <IconButton
+            aria-label="add to cart"
+            mr="10px"
+            icon={<FaShoppingCart />}
           />
           <SignedOut>
             <Link href="/signIn">

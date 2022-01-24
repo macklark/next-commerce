@@ -1,21 +1,34 @@
 // Chakra imports
 import {
-  Menu,
-  MenuList,
-  MenuItem,
   Button,
-  MenuButton,
   Input,
   Box,
   Flex,
   Heading,
+  IconButton,
+  Drawer,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerBody,
+  useDisclosure,
 } from "@chakra-ui/react";
 
+// React icons
+import { HiMenu } from "react-icons/hi";
+import { FaUserAlt, FaShoppingCart } from "react-icons/fa";
+
+// Chakra icons
+import { SearchIcon } from "@chakra-ui/icons";
+
 // React imports
-import { useState } from "react";
+import { useRef } from "react";
+
+// Nextjs imports
+import Link from "next/link";
 
 const Mobilenavbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const btnRef = useRef();
 
   return (
     <Box as="header" w="100%" display={{ base: "block", md: "none" }}>
@@ -30,43 +43,47 @@ const Mobilenavbar = () => {
         <Heading as="h3" size="lg">
           Next Commerce
         </Heading>
-        <Menu>
-          <MenuButton
-            cursor="pointer"
-            as={Button}
-            onClick={() => setIsOpen(!isOpen)}
-          >
-            {isOpen ? (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-              >
-                <path d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z" />
-              </svg>
-            ) : (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-              >
-                <path d="M24 6h-24v-4h24v4zm0 4h-24v4h24v-4zm0 8h-24v4h24v-4z" />
-              </svg>
-            )}
-          </MenuButton>
-          <MenuList>
-            <MenuItem>Sign in</MenuItem>
-          </MenuList>
-        </Menu>
+        <IconButton
+          aria-label="open menu"
+          icon={<HiMenu />}
+          ref={btnRef}
+          onClick={onOpen}
+        />
+        <Drawer
+          isOpen={isOpen}
+          placement="right"
+          onClose={onClose}
+          finalFocusRef={btnRef}
+          display={{ base: "block", md: "none" }}
+        >
+          <DrawerOverlay />
+          <DrawerContent>
+            <DrawerBody>
+              <Link href="/signIn">
+                <a>
+                  <Button leftIcon={<FaUserAlt />} w="100%">
+                    Sign In
+                  </Button>
+                </a>
+              </Link>
+              <Link href="/">
+                <a>
+                  <Button leftIcon={<FaShoppingCart />} w="100%" mt="10px">
+                    Cart
+                  </Button>
+                </a>
+              </Link>
+            </DrawerBody>
+          </DrawerContent>
+        </Drawer>
       </Flex>
       <Flex justifyContent="center">
         <Input
           display={{ base: "block", md: "none" }}
-          placeholder="🔍 Search"
-          w="90%"
+          placeholder="Search..."
+          w="80%"
         />
+        <IconButton aria-label="search" icon={<SearchIcon />} ml="10px" />
       </Flex>
     </Box>
   );
