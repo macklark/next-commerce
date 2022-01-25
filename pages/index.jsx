@@ -119,6 +119,7 @@ const Home = () => {
       <Head>
         <title>Next Commerce</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <meta name="description" content="Home page for Next Commerce" />
       </Head>
       <Navbar />
       {data ? (

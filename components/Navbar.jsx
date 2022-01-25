@@ -13,6 +13,7 @@ import {
   Button,
   Input,
   IconButton,
+  Spacer,
 } from "@chakra-ui/react";
 
 // React icons
@@ -41,7 +42,6 @@ const Navbar = () => {
     <Box as="header" w="100%">
       <Flex
         as="nav"
-        justifyContent="space-between"
         w={["100%", 11 / 12]}
         mx="auto"
         padding="4"
@@ -51,7 +51,8 @@ const Navbar = () => {
         <Heading as="h2" size="xl">
           Next Commerce
         </Heading>
-        <Flex align="center" w="45%">
+        <Spacer />
+        <Flex align="center" w="40%">
           <Input
             placeholder="Search..."
             value={searchInput}

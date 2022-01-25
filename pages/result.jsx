@@ -1,3 +1,6 @@
+// Nextjs imports
+import Head from "next/head";
+
 import Navbar from "../components/Navbar";
 
 // Supabase imports
@@ -36,6 +39,11 @@ export const getServerSideProps = async ({ query }) => {
 const Result = ({ products }) => {
   return (
     <>
+      <Head>
+        <title>Result | Next Commerce</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <meta name="description" content="Search results for Next Commerce" />
+      </Head>
       <Navbar />
       <Box w={["100%", 11 / 12]} mx="auto" padding="4">
         <Grid
