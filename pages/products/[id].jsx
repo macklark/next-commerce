@@ -26,6 +26,9 @@ import {
   useRadioGroup,
 } from "@chakra-ui/react";
 
+// React imports
+import { useState } from "react";
+
 export const getStaticPaths = async () => {
   const res = await getAllProducts();
 
@@ -92,30 +95,42 @@ const Group = (props) => {
   );
 };
 
-const Radiobuttons = () => {
-  const options = ["S", "M", "L", "XL", "XXL"];
+const Details = ({ product }) => {
+  const [size, setSize] = useState("S");
+  const [quantity, setQuantity] = useState(1);
 
+  const clickHandler = async (name, price) => {
+    const result = await fetch("http://localhost:3000/api/user/getUser").then(
+      (res) => res.json()
+    );
+
+    let totalPrice = price * Number(quantity);
+
+    const reqBody = {
+      name,
+      user: result.id,
+      size,
+      quantity,
+      totalPrice,
+    };
+
+    fetch("/api/postCart", {
+      method: "POST",
+      body: JSON.stringify(reqBody),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  };
+
+  const options = ["S", "M", "L", "XL", "XXL"];
   const { getRootProps, getRadioProps } = useRadioGroup({
     name: "size",
+    onChange: (value) => setSize(value),
   });
 
   const group = getRootProps();
 
-  return (
-    <HStack {...group}>
-      {options.map((value) => {
-        const radio = getRadioProps({ value });
-        return (
-          <Group key={value} {...radio}>
-            {value}
-          </Group>
-        );
-      })}
-    </HStack>
-  );
-};
-
-const Details = ({ product }) => {
   return (
     <>
       <Head>
@@ -149,14 +164,29 @@ const Details = ({ product }) => {
               <Text textTransform="uppercase" fontSize="xl" color="gray.500">
                 size
               </Text>
-              <Radiobuttons />
+              <HStack {...group}>
+                {options.map((value) => {
+                  const radio = getRadioProps({ value });
+                  return (
+                    <Group key={value} {...radio}>
+                      {value}
+                    </Group>
+                  );
+                })}
+              </HStack>
             </Box>
             <Box marginTop="3em">
               <Text textTransform="uppercase" fontSize="xl" color="gray.500">
                 Qty
               </Text>
               <Box mt="15px">
-                <NumberInput size="lg" maxW={32} defaultValue={1} min={1}>
+                <NumberInput
+                  size="lg"
+                  maxW={32}
+                  defaultValue={1}
+                  min={1}
+                  onChange={(e) => setQuantity(e)}
+                >
                   <NumberInputField />
                   <NumberInputStepper>
                     <NumberIncrementStepper />
@@ -176,6 +206,7 @@ const Details = ({ product }) => {
                   backgroundColor: "gray.100",
                   color: "black",
                 }}
+                onClick={() => clickHandler(product[0].name, product[0].price)}
               >
                 add to cart
               </Button>
