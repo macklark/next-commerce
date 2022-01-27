@@ -100,9 +100,7 @@ const Details = ({ product }) => {
   const [quantity, setQuantity] = useState(1);
 
   const clickHandler = async (name, price) => {
-    const result = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_SIDE_URL}/api/user/getUser`
-    ).then((res) => res.json());
+    const result = await fetch("/api/user/getUser").then((res) => res.json());
 
     let totalPrice = price * Number(quantity);
 
