@@ -14,6 +14,7 @@ import {
   Input,
   IconButton,
   Spacer,
+  Avatar,
 } from "@chakra-ui/react";
 
 // React icons
@@ -25,10 +26,12 @@ import { SearchIcon } from "@chakra-ui/icons";
 // Component imports
 import Mobilenavbar from "./mobile/Mobilenavbar";
 
-// Clerk auth imports
-import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+// Auth0 imports
+import { useUser } from "@auth0/nextjs-auth0";
 
 const Navbar = () => {
+  const { user } = useUser();
+
   const [searchInput, setSearchInput] = useState("");
   const router = useRouter();
 
@@ -69,11 +72,27 @@ const Navbar = () => {
             mr="10px"
             icon={<FaShoppingCart />}
           />
-          <SignedOut>
-            <Link href="/signIn">
+          {user ? (
+            <>
+              <Link href="/api/auth/logout">
+                <a>
+                  <Button
+                    bgGradient="linear(to-r, #7928CA, #FF0080 )"
+                    variant="solid"
+                    color="white"
+                    mr="10px"
+                  >
+                    Logout
+                  </Button>
+                </a>
+              </Link>
+              <Avatar name={user.name} src={user.picture} />
+            </>
+          ) : (
+            <Link href="/api/auth/login">
               <a>
                 <Button
-                  bgGradient="linear(to-r,#7928CA, #FF0080 )"
+                  bgGradient="linear(to-r, #7928CA, #FF0080 )"
                   variant="solid"
                   color="white"
                 >
@@ -81,10 +100,7 @@ const Navbar = () => {
                 </Button>
               </a>
             </Link>
-          </SignedOut>
-          <SignedIn>
-            <UserButton userProfileUrl="/user" afterSignOutAll="/" />
-          </SignedIn>
+          )}
         </Flex>
       </Flex>
       <Mobilenavbar />

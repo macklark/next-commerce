@@ -10,7 +10,9 @@ import {
   DrawerOverlay,
   DrawerContent,
   DrawerBody,
+  DrawerHeader,
   useDisclosure,
+  Avatar,
 } from "@chakra-ui/react";
 
 // React icons
@@ -26,9 +28,14 @@ import { useRef } from "react";
 // Nextjs imports
 import Link from "next/link";
 
+// Auth0 imports
+import { useUser } from "@auth0/nextjs-auth0";
+
 const Mobilenavbar = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = useRef();
+
+  const { user } = useUser();
 
   return (
     <Box as="header" w="100%" display={{ base: "block", md: "none" }}>
@@ -57,24 +64,50 @@ const Mobilenavbar = () => {
           display={{ base: "block", md: "none" }}
         >
           <DrawerOverlay />
-          <DrawerContent>
-            <DrawerBody>
-              <Link href="/signIn">
-                <a>
-                  <Button leftIcon={<FaUserAlt />} w="100%">
-                    Sign In
-                  </Button>
-                </a>
-              </Link>
-              <Link href="/">
-                <a>
-                  <Button leftIcon={<FaShoppingCart />} w="100%" mt="10px">
-                    Cart
-                  </Button>
-                </a>
-              </Link>
-            </DrawerBody>
-          </DrawerContent>
+          {user ? (
+            <DrawerContent>
+              <Flex justifyContent="center">
+                <DrawerHeader>
+                  <Avatar name={user.name} src={user.picture} size="lg" />
+                </DrawerHeader>
+              </Flex>
+              <DrawerBody>
+                <Link href="/api/auth/logout">
+                  <a>
+                    <Button leftIcon={<FaUserAlt />} w="100%">
+                      Logout
+                    </Button>
+                  </a>
+                </Link>
+                <Link href="/">
+                  <a>
+                    <Button leftIcon={<FaShoppingCart />} w="100%" mt="10px">
+                      Cart
+                    </Button>
+                  </a>
+                </Link>
+              </DrawerBody>
+            </DrawerContent>
+          ) : (
+            <DrawerContent>
+              <DrawerBody>
+                <Link href="/api/auth/login">
+                  <a>
+                    <Button leftIcon={<FaUserAlt />} w="100%">
+                      Sign In
+                    </Button>
+                  </a>
+                </Link>
+                <Link href="/">
+                  <a>
+                    <Button leftIcon={<FaShoppingCart />} w="100%" mt="10px">
+                      Cart
+                    </Button>
+                  </a>
+                </Link>
+              </DrawerBody>
+            </DrawerContent>
+          )}
         </Drawer>
       </Flex>
       <Flex justifyContent="center">
