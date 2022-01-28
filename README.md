@@ -1,4 +1,4 @@
-# Next commerce
+# Next commerce              ⏸ Pause
 
 Install node modules before
 ### `npm install`
