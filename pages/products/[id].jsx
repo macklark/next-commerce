@@ -29,6 +29,9 @@ import {
 // React imports
 import { useState } from "react";
 
+// Auth0 imports
+import { useUser } from "@auth0/nextjs-auth0";
+
 export const getStaticPaths = async () => {
   const res = await getAllProducts();
 
@@ -96,17 +99,16 @@ const Group = (props) => {
 };
 
 const Details = ({ product }) => {
+  const { user } = useUser();
   const [size, setSize] = useState("S");
   const [quantity, setQuantity] = useState(1);
 
   const clickHandler = async (name, price) => {
-    const result = await fetch("/api/user/getUser").then((res) => res.json());
-
     let totalPrice = price * Number(quantity);
 
     const reqBody = {
       name,
-      user: result.id,
+      user: user.name,
       size,
       quantity,
       totalPrice,
