@@ -67,11 +67,15 @@ const Navbar = () => {
             onClick={searchHandler}
             mx="10px"
           />
-          <IconButton
-            aria-label="add to cart"
-            mr="10px"
-            icon={<FaShoppingCart />}
-          />
+          <Link href="/cart">
+            <a>
+              <IconButton
+                aria-label="add to cart"
+                mr="10px"
+                icon={<FaShoppingCart />}
+              />
+            </a>
+          </Link>
           {user ? (
             <>
               <Link href="/api/auth/logout">
