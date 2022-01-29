@@ -27,7 +27,6 @@ import useSWR, { SWRConfig } from "swr";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 // For development
-// const API = "http://localhost:3000/api/products/getAll";
 const API = `${process.env.NEXT_PUBLIC_SERVER_SIDE_URL}/api/products/getAll`;
 
 export async function getServerSideProps() {
