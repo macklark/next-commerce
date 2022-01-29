@@ -27,7 +27,7 @@ const Cart = () => {
             {data ? (
               data.cart.map((product) => {
                 return (
-                  <Box>
+                  <Box key={product.id}>
                     <Text>{product.name}</Text>
                   </Box>
                 );
