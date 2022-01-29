@@ -1,17 +1,20 @@
 import supabase from "../../../utils/supabaseClient";
 
-//auth0 imports
+// auth0 imports
 import { withApiAuthRequired, getSession } from "@auth0/nextjs-auth0";
 
-const getAll = async (req, res) => {
+const getCart = async (req, res) => {
   const { user } = getSession(req);
 
   try {
-    const { data: products } = await supabase.from("products").select("*");
+    const { data: cart } = await supabase
+      .from("cart")
+      .select("*")
+      .eq("userId", user.name);
 
     res.status(200).json({
       status: "success",
-      products,
+      cart,
     });
   } catch (err) {
     res.status(500).json({
@@ -21,4 +24,4 @@ const getAll = async (req, res) => {
   }
 };
 
-export default withApiAuthRequired(getAll);
+export default withApiAuthRequired(getCart);
