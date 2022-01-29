@@ -1,11 +1,6 @@
 import supabase from "../../../utils/supabaseClient";
 
-//auth0 imports
-import { withApiAuthRequired, getSession } from "@auth0/nextjs-auth0";
-
 const getAll = async (req, res) => {
-  const { user } = getSession(req);
-
   try {
     const { data: products } = await supabase.from("products").select("*");
 
@@ -21,4 +16,4 @@ const getAll = async (req, res) => {
   }
 };
 
-export default withApiAuthRequired(getAll);
+export default getAll;
