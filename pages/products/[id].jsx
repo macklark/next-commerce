@@ -196,20 +196,43 @@ const Details = ({ product }) => {
               </Box>
             </Box>
             <Flex justifyContent="center">
-              <Button
-                textTransform="uppercase"
-                mt="3em"
-                width="70%"
-                backgroundColor="black"
-                color="white"
-                _hover={{
-                  backgroundColor: "gray.100",
-                  color: "black",
-                }}
-                onClick={() => clickHandler(product[0].name, product[0].price)}
-              >
-                add to cart
-              </Button>
+              {user ? (
+                <Button
+                  textTransform="uppercase"
+                  mt="3em"
+                  width="70%"
+                  backgroundColor="black"
+                  color="white"
+                  _hover={{
+                    backgroundColor: "gray.100",
+                    color: "black",
+                  }}
+                  isDisabled={false}
+                  onClick={() =>
+                    clickHandler(product[0].name, product[0].price)
+                  }
+                >
+                  add to cart
+                </Button>
+              ) : (
+                <Button
+                  textTransform="uppercase"
+                  mt="3em"
+                  width="70%"
+                  backgroundColor="black"
+                  color="white"
+                  _hover={{
+                    backgroundColor: "gray.100",
+                    color: "black",
+                  }}
+                  isDisabled={true}
+                  onClick={() =>
+                    clickHandler(product[0].name, product[0].price)
+                  }
+                >
+                  add to cart
+                </Button>
+              )}
             </Flex>
           </GridItem>
         </Grid>
