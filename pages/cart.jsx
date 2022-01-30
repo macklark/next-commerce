@@ -31,7 +31,9 @@ import supabase from "../utils/supabaseClient";
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 const Cart = () => {
-  const { data, error } = useSWR("/api/products/getCart", fetcher);
+  const { data, error } = useSWR("/api/products/getCart", fetcher, {
+    refreshInterval: 1000,
+  });
 
   if (error) {
     return (
