@@ -5,7 +5,7 @@ import { withPageAuthRequired } from "@auth0/nextjs-auth0";
 import Navbar from "../components/Navbar";
 
 // chakra imports
-import { Box, Text, Grid, GridItem, Spinner, Flex } from "@chakra-ui/react";
+import { Box, Text, Grid, GridItem, Spinner } from "@chakra-ui/react";
 
 //swr imports
 import useSWR from "swr";
@@ -14,6 +14,14 @@ const fetcher = (url) => fetch(url).then((res) => res.json());
 
 const Cart = () => {
   const { data, error } = useSWR("/api/products/getCart", fetcher);
+
+  if (error) {
+    return (
+      <Box>
+        <Text>Error: {error.message}</Text>
+      </Box>
+    );
+  }
 
   return (
     <>
