@@ -1,6 +1,7 @@
 // Next imports
 import Image from "next/image";
 import Head from "next/head";
+import Link from "next/link";
 
 // Supabase imports
 import supabase from "../../utils/supabaseClient";
@@ -24,6 +25,13 @@ import {
   HStack,
   useRadio,
   useRadioGroup,
+  Tooltip,
+  useDisclosure,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
 } from "@chakra-ui/react";
 
 // React imports
@@ -102,6 +110,8 @@ const Details = ({ product }) => {
   const { user } = useUser();
   const [size, setSize] = useState("S");
   const [quantity, setQuantity] = useState(1);
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const clickHandler = async (name, price) => {
     let totalPrice = price * Number(quantity);
@@ -215,23 +225,46 @@ const Details = ({ product }) => {
                   add to cart
                 </Button>
               ) : (
-                <Button
-                  textTransform="uppercase"
-                  mt="3em"
-                  width="70%"
-                  backgroundColor="black"
-                  color="white"
-                  _hover={{
-                    backgroundColor: "gray.100",
-                    color: "black",
-                  }}
-                  isDisabled={true}
-                  onClick={() =>
-                    clickHandler(product[0].name, product[0].price)
-                  }
-                >
-                  add to cart
-                </Button>
+                <>
+                  <Button
+                    textTransform="uppercase"
+                    mt="3em"
+                    width="70%"
+                    backgroundColor="black"
+                    color="white"
+                    _hover={{
+                      backgroundColor: "gray.100",
+                      color: "black",
+                    }}
+                    onClick={onOpen}
+                  >
+                    add to cart
+                  </Button>
+                  <Modal isOpen={isOpen} onClose={onClose}>
+                    <ModalOverlay />
+                    <ModalContent>
+                      <ModalHeader>Sign In, before adding to cart</ModalHeader>
+                      <Flex justifyContent="center">
+                        <ModalFooter>
+                          <Link href="/api/auth/login">
+                            <a>
+                              <Button
+                                backgroundColor="black"
+                                color="white"
+                                _hover={{
+                                  backgroundColor: "gray.100",
+                                  color: "black",
+                                }}
+                              >
+                                Sign In
+                              </Button>
+                            </a>
+                          </Link>
+                        </ModalFooter>
+                      </Flex>
+                    </ModalContent>
+                  </Modal>
+                </>
               )}
             </Flex>
           </GridItem>
