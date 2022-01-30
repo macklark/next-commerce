@@ -2,6 +2,7 @@
 import Image from "next/image";
 import Head from "next/head";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 // Supabase imports
 import supabase from "../../utils/supabaseClient";
@@ -25,7 +26,6 @@ import {
   HStack,
   useRadio,
   useRadioGroup,
-  Tooltip,
   useDisclosure,
   Modal,
   ModalOverlay,
@@ -110,10 +110,11 @@ const Details = ({ product }) => {
   const { user } = useUser();
   const [size, setSize] = useState("S");
   const [quantity, setQuantity] = useState(1);
+  const router = useRouter();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const clickHandler = async (name, price) => {
+  const clickHandler = async (name, price, image) => {
     let totalPrice = price * Number(quantity);
 
     const reqBody = {
@@ -122,6 +123,7 @@ const Details = ({ product }) => {
       size,
       quantity,
       totalPrice,
+      image,
     };
 
     fetch("/api/postCart", {
@@ -131,6 +133,8 @@ const Details = ({ product }) => {
         "Content-Type": "application/json",
       },
     });
+
+    router.push("/cart");
   };
 
   const options = ["S", "M", "L", "XL", "XXL"];
@@ -219,7 +223,11 @@ const Details = ({ product }) => {
                   }}
                   isDisabled={false}
                   onClick={() =>
-                    clickHandler(product[0].name, product[0].price)
+                    clickHandler(
+                      product[0].name,
+                      product[0].price,
+                      product[0].image
+                    )
                   }
                 >
                   add to cart

@@ -51,9 +51,13 @@ const Navbar = () => {
         align="center"
         display={{ base: "none", md: "flex" }}
       >
-        <Heading as="h2" size="xl">
-          Next Commerce
-        </Heading>
+        <Link href="/">
+          <a>
+            <Heading as="h2" size="xl">
+              Next Commerce
+            </Heading>
+          </a>
+        </Link>
         <Spacer />
         <Flex align="center" w="40%">
           <Input

@@ -8,18 +8,18 @@ const postCart = async (req, res) => {
     const size = req.body.size;
     const quantity = req.body.quantity;
     const totalPrice = req.body.totalPrice;
+    const image = req.body.image;
 
-    const { data, error } = await supabase
-      .from("cart")
-      .insert([
-        {
-          name: name,
-          size: size,
-          quantity: quantity,
-          userId: userId,
-          price: totalPrice,
-        },
-      ]);
+    const { data, error } = await supabase.from("cart").insert([
+      {
+        name: name,
+        size: size,
+        quantity: quantity,
+        userId: userId,
+        price: totalPrice,
+        image_url: image,
+      },
+    ]);
 
     if (data) {
       res.status(200).json({
