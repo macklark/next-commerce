@@ -10,10 +10,8 @@ export default async function handler(req, res) {
       const session = await stripe.checkout.sessions.create({
         line_items: arrCart,
         mode: "payment",
-        success_url:
-          "https://71d0-2405-201-c01b-500c-f4e1-bd31-5be3-bd0c.ngrok.io/payment/success",
-        cancel_url:
-          "https://71d0-2405-201-c01b-500c-f4e1-bd31-5be3-bd0c.ngrok.io/payment/cancel",
+        success_url: "https://next-commerce-web.vercel.app/payment/success",
+        cancel_url: "https://next-commerce-web.vercel.app/payment/cancel",
       });
 
       res.status(200).json(session);
