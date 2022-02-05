@@ -114,7 +114,7 @@ const Details = ({ product }) => {
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const clickHandler = async (name, price, image) => {
+  const clickHandler = async (name, price, image, price_id) => {
     let totalPrice = price * Number(quantity);
 
     const reqBody = {
@@ -124,6 +124,7 @@ const Details = ({ product }) => {
       quantity,
       totalPrice,
       image,
+      price_id,
     };
 
     fetch("/api/postCart", {
@@ -226,7 +227,8 @@ const Details = ({ product }) => {
                     clickHandler(
                       product[0].name,
                       product[0].price,
-                      product[0].image
+                      product[0].image,
+                      product[0].price_id
                     )
                   }
                 >
