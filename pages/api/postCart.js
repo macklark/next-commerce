@@ -9,6 +9,7 @@ const postCart = async (req, res) => {
     const quantity = req.body.quantity;
     const totalPrice = req.body.totalPrice;
     const image = req.body.image;
+    const price_id = req.body.price_id;
 
     const { data, error } = await supabase.from("cart").insert([
       {
@@ -18,6 +19,7 @@ const postCart = async (req, res) => {
         userId: userId,
         price: totalPrice,
         image_url: image,
+        price_id: price_id,
       },
     ]);
 
