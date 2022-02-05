@@ -17,6 +17,7 @@ import {
   Spinner,
   Flex,
   IconButton,
+  Button,
 } from "@chakra-ui/react";
 
 //swr imports
@@ -28,12 +29,16 @@ import { FiTrash2 } from "react-icons/fi";
 // supabase imports
 import supabase from "../utils/supabaseClient";
 
+// Stripe imports
+import getStripe from "../utils/getStripe";
+
+// axios imports
+import axios from "axios";
+
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 const Cart = () => {
-  const { data, error } = useSWR("/api/products/getCart", fetcher, {
-    refreshInterval: 1000,
-  });
+  const { data, error } = useSWR("/api/products/getCart", fetcher);
 
   if (error) {
     return (
@@ -49,6 +54,28 @@ const Cart = () => {
     if (error) {
       console.log(error);
     }
+  };
+
+  const checkoutHandler = async (arrCart) => {
+    const postCheckout = [];
+
+    arrCart.forEach((product) => {
+      let productPriceId = product.price_id;
+      let productQuantity = product.quantity;
+
+      postCheckout.push({ price: productPriceId, quantity: productQuantity });
+    });
+
+    const {
+      data: { id },
+    } = await axios.post("/api/checkout", {
+      items: postCheckout,
+    });
+
+    const stripe = await getStripe();
+    await stripe.redirectToCheckout({
+      sessionId: id,
+    });
   };
 
   return (
@@ -102,6 +129,17 @@ const Cart = () => {
                 <Spinner />
               </Box>
             )}
+          </GridItem>
+          <GridItem colSpan={5}>
+            <Button
+              w="90%"
+              backgroundColor="black"
+              color="white"
+              _hover={{ backgroundColor: "gray.100", color: "black" }}
+              onClick={() => checkoutHandler(data.cart)}
+            >
+              Checkout
+            </Button>
           </GridItem>
         </Grid>
       </Box>
