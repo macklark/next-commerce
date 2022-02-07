@@ -25,6 +25,9 @@ const Success = () => {
           Payment is successful !
         </Text>
       </Flex>
+      <Flex justifyContent="center" mt="20px">
+        <Text>Order ID: {Math.random().toString(36).substring(2, 10)}</Text>
+      </Flex>
     </>
   );
 };
