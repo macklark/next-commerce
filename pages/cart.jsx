@@ -88,12 +88,21 @@ const Cart = () => {
       </Head>
       <Navbar />
       <Box maxW="7xl" mx="auto" my={{ md: "50px" }}>
-        <Text fontSize="2xl" fontWeight="bold" textTransform="uppercase">
+        <Text
+          fontSize="2xl"
+          fontWeight="bold"
+          textTransform="uppercase"
+          textAlign={{ base: "center", md: "left" }}
+          mt={{
+            base: "15px",
+            md: "0px",
+          }}
+        >
           my cart
         </Text>
 
         <Grid templateColumns={{ md: "repeat(10, 1fr)" }} gap={10}>
-          <GridItem colSpan={5} margin={{ base: "2em", md: "0em" }}>
+          <GridItem colSpan={5} margin={{ base: "0.5em", md: "0em" }}>
             {data ? (
               data.cart.map((product) => {
                 return (
@@ -132,7 +141,10 @@ const Cart = () => {
           </GridItem>
           <GridItem colSpan={5}>
             <Button
-              w="90%"
+              w={{
+                base: "100%",
+                md: "90%",
+              }}
               backgroundColor="black"
               color="white"
               _hover={{ backgroundColor: "gray.100", color: "black" }}
