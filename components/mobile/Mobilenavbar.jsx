@@ -98,7 +98,7 @@ const Mobilenavbar = () => {
                     </Button>
                   </a>
                 </Link>
-                <Link href="/">
+                <Link href="/cart">
                   <a>
                     <Button leftIcon={<FaShoppingCart />} w="100%" mt="10px">
                       Cart
