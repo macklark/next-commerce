@@ -165,7 +165,7 @@ const Details = ({ product }) => {
               priority
             />
           </GridItem>
-          <GridItem colSpan={5} margin={{ base: "2em", md: "0em" }}>
+          <GridItem colSpan={5} mx={{ base: "1em", md: "0em" }}>
             <Flex justifyContent="space-between" align="center">
               <Text fontSize="4xl" fontWeight="medium">
                 {product[0].name}
@@ -190,7 +190,7 @@ const Details = ({ product }) => {
                 })}
               </HStack>
             </Box>
-            <Box marginTop="3em">
+            <Box marginTop={{ base: "1em", md: "3em" }}>
               <Text textTransform="uppercase" fontSize="xl" color="gray.500">
                 Qty
               </Text>
@@ -215,7 +215,7 @@ const Details = ({ product }) => {
                 <Button
                   textTransform="uppercase"
                   mt="3em"
-                  width="70%"
+                  width={{ base: "100%", md: "70%" }}
                   backgroundColor="black"
                   color="white"
                   _hover={{
